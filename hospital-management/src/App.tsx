@@ -60,7 +60,7 @@ const PatientManagementForm: React.FC = () => {
 
   useEffect(() => {
     // You can perform additional actions when patients state changes, like updating the backend.
-    console.log("Patients updated:", patients);
+    console.log("Patients updated::", patients);
   }, [patients]);
 
   return (
