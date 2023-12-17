@@ -1,6 +1,6 @@
 # Hospital Management App
 
-Hospital Management App is a simple React application for managing patient information.
+Hospital Management App is a React application designed for efficiently managing patient information in a hospital setting. The app provides a user-friendly interface to add and view patient details.
 
 ## Table of Contents
 
@@ -13,19 +13,12 @@ Hospital Management App is a simple React application for managing patient infor
 - [License](#license)
 
 ## Features
+**Patient Information Management:**
+   - Input patient details, including name and age.
+   - Submit patient information via an intuitive form.
 
-- Add patient information (Name and Age)
-- Submit patient details using a form
-- Automatic focus on the input field when the page loads
-- Responsive design
-
-## Getting Started
-
-### Prerequisites
-
-Before you begin, ensure you have the following tools installed:
+Before you begin, make sure you have the following tools installed:
 
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com/) (comes with Node.js)
-
 
