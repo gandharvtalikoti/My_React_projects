@@ -9,7 +9,5 @@ import App1 from './Components/App1.tsx'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />
-    <h1>--------------</h1>
-    <App1/>
   </React.StrictMode>,
 )

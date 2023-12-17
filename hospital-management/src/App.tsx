@@ -23,15 +23,24 @@ const PatientList = styled.ul`
   padding: 0;
 `;
 
-const PatientItem = styled.li`
+const PatientItem = styled.li<{ covidStatus: string }>`
   border: 1px solid #ddd;
   padding: 10px;
   margin: 5px 0;
   display: flex;
   justify-content: space-between;
+
+  p {
+    color: ${({ covidStatus }) => (covidStatus === "positive" ? "red" : "green")};
+    font-weight: bold;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
 `;
 
-const PatientManagementForm: React.FC = () => {
+const App: React.FC = () => {
   const [patients, setPatients] = useState<any[]>([]);
   const [newPatient, setNewPatient] = useState({
     name: "",
@@ -41,6 +50,13 @@ const PatientManagementForm: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPatient({ ...newPatient, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewPatient({
+      ...newPatient,
+      covidStatus: e.target.checked ? "positive" : "negative",
+    });
   };
 
   const addPatient = () => {
@@ -58,17 +74,22 @@ const PatientManagementForm: React.FC = () => {
     setPatients(updatedPatients);
   };
 
+  const updatePatientStatus = (index: number) => {
+    const updatedPatients = [...patients];
+    updatedPatients[index].covidStatus =
+      patients[index].covidStatus === "positive" ? "negative" : "positive";
+    setPatients(updatedPatients);
+  };
+
   useEffect(() => {
-    // You can perform additional actions when patients state changes, like updating the backend.
-    console.log("Patients updated::", patients);
-  }, [patients]);
+    document.title = "Hospital Management";
+  }, []);
 
   return (
     <Container>
-      
+      <h1>Hospital Management</h1>
       <Form>
         <label>
-        </label>
           Name:
           <input
             type="text"
@@ -76,39 +97,44 @@ const PatientManagementForm: React.FC = () => {
             value={newPatient.name}
             onChange={handleInputChange}
           />
-        <label>
-          Admission Status: 
-          <input
-            type="text"
-            name="admissionStatus"
-            value={newPatient.admissionStatus}
-            onChange={handleInputChange}
-          />
         </label>
         <label>
           COVID Status:
           <input
-            type="text"
+            className="form-check-input"
+            type="checkbox"
             name="covidStatus"
-            value={newPatient.covidStatus}
-            onChange={handleInputChange}
+            checked={newPatient.covidStatus === "positive"}
+            onChange={handleCheckboxChange}
           />
         </label>
-        <Button type="button" onClick={addPatient}>
+        <Button
+          className="btn btn-primary"
+          type="button"
+          onClick={addPatient}
+        >
           Add Patient
         </Button>
       </Form>
 
       <PatientList>
         {patients.map((patient, index) => (
-          <PatientItem key={index}>
+          <PatientItem key={index} covidStatus={patient.covidStatus}>
             <div>
+              <input
+                type="checkbox"
+                checked={patient.covidStatus === "positive"}
+                onChange={() => updatePatientStatus(index)}
+              />
               <strong>{patient.name}</strong>
-              <p>Admission Status: {patient.admissionStatus}</p>
               <p>COVID Status: {patient.covidStatus}</p>
             </div>
-            <Button type="button" onClick={() => removePatient(index)}>
-              Remove
+            <Button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => removePatient(index)}
+            >
+              Discharge
             </Button>
           </PatientItem>
         ))}
@@ -117,4 +143,4 @@ const PatientManagementForm: React.FC = () => {
   );
 };
 
-export default PatientManagementForm;
+export default App;
